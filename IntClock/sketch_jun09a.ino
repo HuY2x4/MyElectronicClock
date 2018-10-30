@@ -29,6 +29,12 @@ boolean isCheckIn = false; //是否已经登录服务器
 char* parseJson(char *jsonString);//定义aJson字符串
 boolean ifCD=false;//是否开启倒计时模式
 countDown countD;//倒计时
+String led_year="0";
+String led_month="0";
+String led_day="0";
+String led_hou="0";
+String led_min="0";
+String led_sec="0";
 RTC_DS1307 RTC;
 
 //int i=1;//测试用的 冲突了
@@ -61,21 +67,65 @@ void loop() {
     if(ifCD){//倒计时
         // 清除屏幕显示内容
          lcd.clear();
+         //显示两位数
+         if(countD.getHou()<10){
+            led_hou="0"+String(countD.getHou());
+         }
+         else{
+            led_hou=String(countD.getHou());
+         }
+
+         if(countD.getMin()<10){
+            led_min="0"+String(countD.getMin());
+         }
+         else{
+            led_min=String(countD.getMin());
+         }
+
+         if(countD.getSec()<10){
+            led_sec="0"+String(countD.getSec());
+         }
+         else{
+            led_sec=String(countD.getSec());
+         }
+         
          //在LCD第一行输出日期信息
          lcd.setCursor(0, 0);
-         lcd.print(countD.getHou());
+         lcd.print(led_hou);
          lcd.print(":");
-         lcd.print(countD.getMin());
+         lcd.print(led_min);
          lcd.print(":");
-         lcd.print(countD.getSec());
-         Serial.println("sm:"+String(countD.getSec()));
+         lcd.print(led_sec);
+        
          if(!countD.timeDown()){//如果倒计时结束  *注意1s的延时
             ifCD=false;
          }
+         
    }
-   else if(true)//正常时间//RTC.read(tm)
+   else//正常时间//RTC.read(tm)
    {
      now=RTC.now();
+     //显示两位数
+     if(now.hour()<10){
+            led_hou="0"+String(now.hour());
+         }
+         else{
+            led_hou=String(now.hour());
+         }
+
+         if(now.minute()<10){
+            led_min="0"+String(now.minute());
+         }
+         else{
+            led_min=String(now.minute());
+         }
+
+         if(now.second()<10){
+            led_sec="0"+String(now.second());
+         }
+         else{
+            led_sec=String(now.second());
+         }
      // 清除屏幕显示内容
      lcd.clear();
      //在LCD第一行输出日期信息
@@ -87,18 +137,14 @@ void loop() {
      lcd.print(now.day());//tm.Day
      //在LCD第二行输出时间信息
      lcd.setCursor(8, 1);
-     lcd.print(now.hour());//tm.Hour
+     lcd.print(led_hou);//tm.Hour
      lcd.print(":");
-     lcd.print(now.minute());//tm.Minute
+     lcd.print(led_min);//tm.Minute
      lcd.print(":");
-     lcd.print(now.second());//tm.Second
+     lcd.print(led_sec);//tm.Second
 
    }
-  else// 如果读取数据失败，则输出错误提示
-   {
-     lcd.setCursor(0, 1);
-     lcd.print("error");
-   }
+  
    //每秒钟更新一次显示内容
    delay(1000);
 
