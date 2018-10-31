@@ -14,9 +14,10 @@ void countDown::setCDTime(String cd_time){
   int arr_hou=0;
   int arr_min=0;
   int arr_sec=0;
+  Serial.println(cd_time.substring(cd_time.lastIndexOf(":")+1));
   arr_hou=cd_time.substring(0,cd_time.indexOf(":")).toInt();
   arr_min=cd_time.substring(cd_time.indexOf(":")+1,cd_time.lastIndexOf(":")).toInt();
-  arr_sec=cd_time.substring(cd_time.indexOf(":")).toInt();
+  arr_sec=cd_time.substring(cd_time.lastIndexOf(":")+1).toInt();
   Serial.println("arr:"+String(arr_hou)+"-"+String(arr_min)+"-"+String(arr_sec));
   cd_hou=arr_hou;
   Serial.println("cd_hou:"+String(cd_hou));
