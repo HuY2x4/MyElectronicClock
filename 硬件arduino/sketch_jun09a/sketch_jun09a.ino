@@ -227,7 +227,7 @@ void serialEvent() {//接收数据
      char inChar = (char)Serial.read();
      if (inChar == '#') {
        stringComplete = true;
-       
+        Serial.println(inputString);
      }
      else{
        inputString += inChar;
